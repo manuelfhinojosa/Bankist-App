@@ -1,10 +1,10 @@
 'use strict';
 
-// BANKIST APP
+// Bankist App
 
 // Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'John Smith',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
@@ -61,7 +61,6 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
-  //.textContent = 0
 
   const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
 
@@ -80,13 +79,11 @@ const displayMovements = function (movements, sort = false) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-//displayMovements(account1.movements);
 
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${acc.balance}€`;
 };
-// calcDisplayBalance(account1.movements);
 
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
@@ -103,14 +100,11 @@ const calcDisplaySummary = function (acc) {
     .filter(mov => mov > 0)
     .map(deposit => (deposit * acc.interestRate) / 100)
     .filter((int, i, arr) => {
-      //console.log(arr);
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
-//Don't chain mutating arrays
-// calcDisplaySummary(account1.movements);
 
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
@@ -142,12 +136,9 @@ btnLogin.addEventListener('click', function (e) {
   //Prevent form from submitting
   e.preventDefault();
 
-  //console.log('login');
-
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
   );
-  console.log(currentAccount);
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     //Display UI and welcome message
     labelWelcome.textContent = `Welcome back,  ${
@@ -161,8 +152,6 @@ btnLogin.addEventListener('click', function (e) {
     //Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
-
-    //console.log('Login');
   }
 });
 
@@ -213,7 +202,6 @@ btnClose.addEventListener('click', function (e) {
     const index = accounts.findIndex(
       acc => acc.username === currentAccount.username
     );
-    console.log(index);
 
     //Delete account
     accounts.splice(index, 1);
